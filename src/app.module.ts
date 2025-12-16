@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CategoriaModule } from './categoria/categoria.module';
 import { AppService } from './app.service';
-import { CategoriaModule } from './categoria/categoria.module'; // ← IMPORTE ESTA LINHA
+import { ProdutoModule } from './produto/produto.module';
 
 @Module({
   imports: [
@@ -13,10 +14,10 @@ import { CategoriaModule } from './categoria/categoria.module'; // ← IMPORTE E
       password: '123',
       database: 'db_farmacia',
       autoLoadEntities: true,
-      synchronize: true,
       logging: true,
     }),
     CategoriaModule,
+    ProdutoModule,
   ],
   controllers: [],
   providers: [AppService],
