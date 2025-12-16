@@ -10,34 +10,34 @@ import {
   Param,
   Query,
 } from '@nestjs/common';
+import { CategoriaService } from '../servide/categoria.service';
 
 @Controller('categorias')
 export class CategoriaController {
+  constructor(private readonly categoriaService: CategoriaService) {}
+
   @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() body: { nome: string; descricao: string }) {
-    return { message: 'Categoria criada com sucesso!', categoria: body };
+    return this.categoriaService.criar(body);
   }
 
   @Get()
   @HttpCode(HttpStatus.OK)
   findAll() {
-    return [
-      { id: 1, nome: 'Categoria A', descricao: 'Descrição A' },
-      { id: 2, nome: 'Categoria B', descricao: 'Descrição B' },
-    ];
+    return this.categoriaService.findAll();
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {
-    return { id: Number(id), nome: 'Categoria X', descricao: 'Descrição X' };
+    return this.categoriaService.findByNome(id);
   }
 
   @Get('search/by-nome')
   @HttpCode(HttpStatus.OK)
   findByNome(@Query('nome') nome: string) {
-    return [{ id: 3, nome, descricao: 'Categoria filtrada por nome' }];
+    return this.categoriaService.findByNome(nome);
   }
 
   @Put(':id')
@@ -46,16 +46,12 @@ export class CategoriaController {
     @Param('id') id: string,
     @Body() body: { nome?: string; descricao?: string },
   ) {
-    return {
-      message: 'Categoria atualizada com sucesso!',
-      id: Number(id),
-      ...body,
-    };
+    return this.categoriaService.update(Number(id), body);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id') id: string) {
-    return { message: `Categoria ${id} deletada com sucesso!` };
+    return this.categoriaService.delete(Number(id));
   }
 }
