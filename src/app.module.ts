@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CategoriaModule } from './categoria/categoria.module';
 import { AppService } from './app.service';
 import { ProdutoModule } from './produto/produto.module';
+import { CategoriaModule } from './categoria/categoria.module';
+import { ClienteModule } from './cliente/cliente.module';
 
 @Module({
   imports: [
@@ -15,9 +16,11 @@ import { ProdutoModule } from './produto/produto.module';
       database: 'db_farmacia',
       autoLoadEntities: true,
       logging: true,
+      synchronize: true,
     }),
     CategoriaModule,
     ProdutoModule,
+    ClienteModule,
   ],
   controllers: [],
   providers: [AppService],
